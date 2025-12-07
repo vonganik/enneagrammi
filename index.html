@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Enneagram System Dynamics</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+    <style>
+        body { margin: 0; padding: 0; background-color: #111; color: #eee; font-family: monospace; overflow: hidden; }
+        canvas { display: block; position: absolute; top: 0; left: 0; z-index: -1; }
+        
+        /* Box della teoria */
+        #theory-box {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            background-color: rgba(0, 0, 0, 0.85);
+            border: 1px solid #444;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        h2 { margin-top: 0; font-size: 16px; color: #fff; border-bottom: 1px solid #666; padding-bottom: 5px; }
+        strong { color: #aaa; }
+        ul { padding-left: 20px; margin: 10px 0; }
+        li { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <script src="js/config.js"></script>
+    <script src="js/GraphTopology.js"></script>
+    <script src="js/SystemDynamics.js"></script>
+    <script src="js/sketch.js"></script>
+
+    <div id="theory-box">
+        <h2>Enneagrammi attrattivi</h2>
+        
+        <p><strong>1. L'Enneatipo come Attrattore Strano</strong><br>
+        In questo modello, un Enneatipo non è una categoria statica, ma un "bacino di attrazione" all'interno dello spazio delle fasi cognitivo. Il sistema tende a gravitare verso questo stato di equilibrio (omeostasi). La patologia (fissazione) è definita dalla profondità di questo bacino: più è profondo, più energia serve per uscirne.</p>
+
+        <p><strong>2. Topologia del Grafo</strong><br>
+        Le linee che vedi non sono casuali. Il grafo è composto da due strutture matematiche distinte:
+        <ul>
+            <li><strong>Legge dell'Esade (1/7):</strong> La sequenza 1-4-2-8-5-7 deriva dalla frazione periodica di 1/7.</li>
+            <li><strong>Legge del Triangolo:</strong> La sequenza 9-6-3 segue una logica dialettica interna separata.</li>
+        </ul>
+        I tasti "Stress" e "Integrazione" attivano i vettori direzionali lungo queste sequenze.</p>
+
+        <p><strong>3. Salute come Entropia (H)</strong><br>
+        La salute psicologica è misurata tramite l'Entropia di Shannon.
+        <ul>
+            <li><strong>Bassa Entropia (Salute 0):</strong> Comportamento rigido e nevrotico. Il soggetto è bloccato in un solo stato (il puntino non si muove dal numero).</li>
+            <li><strong>Alta Entropia (Salute 1):</strong> Flessibilità psicologica. Il soggetto ha accesso equiprobabile a molteplici strategie (il puntino esplora liberamente il sistema).</li>
+        </ul>
+        </p>
+    </div>
+</body>
+</html>
