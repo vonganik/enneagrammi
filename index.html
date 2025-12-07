@@ -5,29 +5,71 @@
     <title>Enneagram System Dynamics</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
     <style>
-        body { margin: 0; padding: 0; background-color: #111; color: #eee; font-family: monospace; overflow: hidden; }
-        canvas { display: block; position: absolute; top: 0; left: 0; z-index: -1; }
-        
-        /* Box della teoria */
+    body { margin: 0; padding: 0; background-color: #111; color: #eee; font-family: monospace; overflow: hidden; }
+    canvas { display: block; position: absolute; top: 0; left: 0; z-index: -1; }
+    
+    /* Stile del Box Teoria */
+    #theory-box {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        /* Usa max-width invece di width fissa per adattarsi agli schermi piccoli */
+        width: 100%; 
+        max-width: 400px;
+        background-color: rgba(0, 0, 0, 0.85);
+        border: 1px solid #444;
+        padding: 20px;
+        border-radius: 5px;
+        font-size: 13px;
+        line-height: 1.5;
+        max-height: 80vh; /* Evita che il box sia più alto dell'80% dello schermo */
+        overflow-y: auto;
+        box-sizing: border-box; /* Assicura che il padding non aumenti la larghezza */
+        transition: opacity 0.3s ease; /* Effetto di transizione dolce */
+    }
+
+    /* Classe per nascondere il box */
+    .hidden {
+        opacity: 0;
+        pointer-events: none; /* Impedisce di cliccare quando è nascosto */
+    }
+
+    /* Stile per il pulsante info (nuovo) */
+    #info-toggle {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background-color: #333;
+        color: #fff;
+        border: 1px solid #666;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 10; /* Assicura che stia sopra a tutto */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h2 { margin-top: 0; font-size: 16px; color: #fff; border-bottom: 1px solid #666; padding-bottom: 5px; }
+    strong { color: #aaa; }
+    ul { padding-left: 20px; margin: 10px 0; }
+    li { margin-bottom: 5px; }
+
+    /* REGOLE SPECIFICHE PER MOBILE */
+    @media (max-width: 600px) {
         #theory-box {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            width: 400px;
-            background-color: rgba(0, 0, 0, 0.85);
-            border: 1px solid #444;
-            padding: 20px;
-            border-radius: 5px;
-            font-size: 13px;
-            line-height: 1.5;
-            max-height: 90vh;
-            overflow-y: auto;
+            right: 10px;
+            left: 10px; /* Si allarga su tutto lo schermo mobile */
+            bottom: 70px; /* Lascia spazio per il bottone in basso */
+            width: auto;
+            max-width: none;
+            font-size: 12px;
         }
-        h2 { margin-top: 0; font-size: 16px; color: #fff; border-bottom: 1px solid #666; padding-bottom: 5px; }
-        strong { color: #aaa; }
-        ul { padding-left: 20px; margin: 10px 0; }
-        li { margin-bottom: 5px; }
-    </style>
+    }
+</style>
 </head>
 <body>
     <script src="js/config.js"></script>
@@ -35,27 +77,46 @@
     <script src="js/SystemDynamics.js"></script>
     <script src="js/sketch.js"></script>
 
-    <div id="theory-box">
+    <button id="info-toggle" onclick="toggleTheory()">?</button>
+
+    <div id="theory-box" class="hidden">
+        <div style="text-align: right; margin-bottom: 10px;">
+            <button onclick="toggleTheory()" style="background:none; border:none; color:#666; cursor:pointer;">[X] Chiudi</button>
+        </div>
+
         <h2>Enneagrammi attrattivi</h2>
         
-        <p><strong>1. L'Enneatipo come Attrattore Strano</strong><br>
-        In questo modello, un Enneatipo non è una categoria statica, ma un "bacino di attrazione" all'interno dello spazio delle fasi cognitivo. Il sistema tende a gravitare verso questo stato di equilibrio (omeostasi). La patologia (fissazione) è definita dalla profondità di questo bacino: più è profondo, più energia serve per uscirne.</p>
+        <p><strong>1. L'enneatipo come attrattore strano</strong><br>
+        In questo modello, un enneatipo non è una categoria statica, ma un "bacino di attrazione" all'interno dello spazio delle fasi cognitivo. Il sistema tende a gravitare verso questo stato di equilibrio (omeostasi). La patologia (fissazione) è definita dalla profondità di questo bacino: più è profondo, più energia serve per uscirne.</p>
 
-        <p><strong>2. Topologia del Grafo</strong><br>
+        <p><strong>2. Topologia del grafo</strong><br>
         Le linee che vedi non sono casuali. Il grafo è composto da due strutture matematiche distinte:
         <ul>
-            <li><strong>Legge dell'Esade (1/7):</strong> La sequenza 1-4-2-8-5-7 deriva dalla frazione periodica di 1/7.</li>
-            <li><strong>Legge del Triangolo:</strong> La sequenza 9-6-3 segue una logica dialettica interna separata.</li>
+            <li><strong>Legge dell'esade (1/7):</strong> La sequenza 1-4-2-8-5-7 deriva dalla frazione periodica di 1/7.</li>
+            <li><strong>Legge del triangolo:</strong> La sequenza 9-6-3 segue una logica dialettica interna separata.</li>
         </ul>
         I tasti "Stress" e "Integrazione" attivano i vettori direzionali lungo queste sequenze.</p>
 
-        <p><strong>3. Salute come Entropia (H)</strong><br>
-        La salute psicologica è misurata tramite l'Entropia di Shannon.
+        <p><strong>3. Salute come entropia (H)</strong><br>
+        La salute psicologica è misurata tramite l'entropia di Shannon.
         <ul>
-            <li><strong>Bassa Entropia (Salute 0):</strong> Comportamento rigido e nevrotico. Il soggetto è bloccato in un solo stato (il puntino non si muove dal numero).</li>
-            <li><strong>Alta Entropia (Salute 1):</strong> Flessibilità psicologica. Il soggetto ha accesso equiprobabile a molteplici strategie (il puntino esplora liberamente il sistema).</li>
+            <li><strong>Bassa entropia (salute 0):</strong> Comportamento rigido e nevrotico. Il soggetto è bloccato in un solo stato (il puntino non si muove dal numero).</li>
+            <li><strong>Alta entropia (salute 1):</strong> Flessibilità psicologica. Il soggetto ha accesso equiprobabile a molteplici strategie (il puntino esplora liberamente il sistema).</li>
         </ul>
         </p>
     </div>
+
+    <script>
+        // Funzione per nascondere/mostrare il box teoria
+        function toggleTheory() {
+            const box = document.getElementById('theory-box');
+            box.classList.toggle('hidden');
+        }
+        
+        // Opzionale: Nascondi automaticamente su mobile all'avvio
+        if (window.innerWidth < 600) {
+            document.getElementById('theory-box').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
